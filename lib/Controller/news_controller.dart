@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:news_app/API/api_service.dart';
 import 'package:news_app/Model/news_res_model.dart';
 
-class NewsController extends GetxController {
+class NewsController extends GetxController with StateMixin<NewsResModel> {
   final api = APIServices();
   var news = NewsResModel();
   var isLoading = true;
@@ -14,10 +14,12 @@ class NewsController extends GetxController {
   }
 
   void getNews() async {
-    isLoading = true;
-    update();
-    news = await api.getNews();
-    isLoading = false;
-    update();
+    change(null, status: RxStatus.loading());
+    try {
+      news = await api.getNews();
+      change(news, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
   }
 }
