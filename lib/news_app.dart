@@ -21,48 +21,45 @@ class NewsApp extends StatelessWidget {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: GetBuilder<NewsController>(
-        init: NewsController(),
-        builder: (controller) {
-          if (controller.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              controller.getNews();
-            },
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: controller.news.articles!.length,
-              itemBuilder: (context, index) {
-                final Articles article = controller.news.articles![index];
-                return Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.network(
-                        article.urlToImage ??
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        article.title ?? "No Title",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
+        }
+        return RefreshIndicator(
+          onRefresh: () async {
+            controller.getNews();
+          },
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: controller.news.value.articles!.length,
+            itemBuilder: (context, index) {
+              final Articles article = controller.news.value.articles![index];
+              return Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.network(
+                      article.urlToImage ??
+                          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      article.title ?? "No Title",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }

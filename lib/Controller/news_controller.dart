@@ -3,9 +3,9 @@ import 'package:news_app/API/api_service.dart';
 import 'package:news_app/Model/news_res_model.dart';
 
 class NewsController extends GetxController {
-  final api = APIServices();
-  var news = NewsResModel();
-  var isLoading = true;
+  final api = APIServices().obs;
+  var news = NewsResModel().obs;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -14,10 +14,8 @@ class NewsController extends GetxController {
   }
 
   void getNews() async {
-    isLoading = true;
-    update();
-    news = await api.getNews();
-    isLoading = false;
-    update();
+    isLoading(true);
+    news.value = await api.value.getNews();
+    isLoading(false);
   }
 }
