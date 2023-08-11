@@ -42,10 +42,13 @@ class NewsApp extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        article.urlToImage ??
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                        fit: BoxFit.cover,
+                      SizedBox(
+                        width: double.infinity,
+                        child: Image.network(
+                          article.urlToImage ??
+                              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Text(
