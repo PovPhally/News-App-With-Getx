@@ -5,7 +5,6 @@ import 'package:news_app/Model/news_res_model.dart';
 class NewsController extends GetxController with StateMixin<NewsResModel> {
   final api = APIServices();
   var news = NewsResModel();
-  var isLoading = true;
 
   @override
   void onInit() {
